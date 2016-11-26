@@ -3,6 +3,6 @@
 # Template over files with those variables
 - name: Interface | Template over interfaces file
   template: src=interfaces.j2 dest=/etc/network/interfaces owner=root group=root mode=0644
-  
+
 - name: Interface | Template over wpa_supplicant file; prompt for ssid and psk.
   template: src=wpa_supplicant.conf.j2 dest=/etc/wpa_supplicant/wpa_supplicant.conf  owner=root group=root mode=0644

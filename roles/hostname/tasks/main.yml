@@ -19,11 +19,13 @@
 # Always comment out the old host in the ansible hosts file
 - name: Comment existing IP/hostname
   local_action: lineinfile dest=hosts regexp="{{ inventory_hostname }}" insertafter="[pis]" line="#{{ inventory_hostname }} Commented by hostname play to use hostname rather than IP"
+  sudo: false
   when: new_hostname != "{{ inventory_hostname }}"
 
 # Write the hostname (either system one or user provided) to the ansible inventory file
 - name: Write new hostname into hosts file (appends .local to hostname provided)
   local_action: lineinfile dest=hosts regexp="{{ new_hostname }}.local" insertafter="[pis]" line="{{ new_hostname }}.local"
+  sudo: false
   when: new_hostname != "{{ inventory_hostname }}"
 
 # Reboot the host and wait for it to come back
@@ -46,6 +48,7 @@
 
 #- name: waiting for server to come back
 #  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} state=started
+#  sudo: false
 
 # Useful debug calls:
 #- debug: "var=hostvars"
