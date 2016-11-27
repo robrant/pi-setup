@@ -1,0 +1,8 @@
+#  how much memory should be owned by the GPU (vs RAM)
+raspi_config_memory_split_gpu: 16
+
+# have the FS fill the SD card
+raspi_config_expanded_filesystem: yes
+
+#currently sets Pi2 OC setting if applicable
+raspi_config_ensure_optimal_cpu_params: yes
