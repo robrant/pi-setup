@@ -1,4 +1,20 @@
 
+# Change the password of the pi user
+- hosts: pis
+  roles:
+    - pi-user
+  tags: pi-user
+  vars_prompt:
+    - name: "upassword"
+      prompt: "New password for user 'pi'"
+      private: yes
+      confirm: yes
+
+- name: Print post-user password change.
+  debug: msg="**************************************************"
+- debug: msg="*** You have changed the password for {{ uusername }} ***"
+- debug: msg="**************************************************"
+
 # Basic setup of a fresh raspberry pi
 - hosts: pis
   roles:
@@ -32,12 +48,7 @@
   tags: hostname
   gather_facts: true
 
-- hosts: pis
-  roles:
-    - pi-user
-  tags: pi-user
-  vars_prompt:
-    - name: "upassword"
-      prompt: "New password for user 'pi'"
-      private: yes
-      confirm: yes
+- name: Print post-new hostname.
+  debug: msg="****************************************************"
+- debug: msg="*** You have changed the hostname to {{ new_hostname }} ***"
+- debug: msg="****************************************************"

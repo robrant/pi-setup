@@ -91,7 +91,10 @@ If your control machine is running OSX, you'll need passlib installed. Run:
 Expect to see this error if you dont:
 
 		TASK [pi-user : Creating user "pi" with admin access] **************************
-		fatal: [pi001.local]: FAILED! => {"failed": true, "msg": "|password_hash requires the passlib python module to generate password hashes on Mac OS X/Darwin"}
+		fatal: [pi001.local]:
+		FAILED! => {"failed": true, "msg": "|
+		password_hash requires the passlib python module to
+		generate password hashes on Mac OS X/Darwin"}
 
 # Passwordless SSH and Creating Keys.
 
