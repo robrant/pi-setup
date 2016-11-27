@@ -9,6 +9,7 @@
 * A microSD card. I'm just using one a 16GB card from maplins.
 * A microSD card reader of some sort. My Mac doesn't have a port for microSD so I use an 'Integral MicroSD' reader, which is a USB reader that has a little slot for microSDs.
 * Access to a wifi router. You'll need to be able to connect your Pi to it via Ethernet and be able to power your Pi at the same time.
+* If you're on a mac, you will need `passlib` installed on your mac. We use it to do the password hashing when it changes the password for `pi`. Detailed below.
 
 A note about power: when I first started out, I used an old nokia charger (UK wall plug --> micro USB) but it didn't work because it wasn't providing enough current to the Pi. I now successfully use an apple iPhone charger plug (which has a female USB) and a USB --> microUSB cable. Whatever you decide to use, check the spec of the plug part; it usually states it's output volts and amps in font size 2.5 somewhere. If you're shy on plug sockets, get a 10,000 MAh battery; you won't regret it.
 
@@ -81,6 +82,16 @@ Open a terminal...
 
 	pi@raspberrypi:~ $
 
+# Slight mod to your local machine (if Mac OSX)
+
+If your control machine is running OSX, you'll need passlib installed. Run:
+
+	$> sudo pip install passlib
+
+Expect to see this error if you dont:
+
+		TASK [pi-user : Creating user "pi" with admin access] **************************
+		fatal: [pi001.local]: FAILED! => {"failed": true, "msg": "|password_hash requires the passlib python module to generate password hashes on Mac OS X/Darwin"}
 
 # Passwordless SSH and Creating Keys.
 
