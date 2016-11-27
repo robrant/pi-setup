@@ -10,11 +10,6 @@
       private: yes
       confirm: yes
 
-- name: Print post-user password change.
-  debug: msg="**************************************************"
-- debug: msg="*** You have changed the password for {{ uusername }} ***"
-- debug: msg="**************************************************"
-
 # Basic setup of a fresh raspberry pi
 - hosts: pis
   roles:
@@ -47,8 +42,3 @@
     - new_hostname: "pi001"
   tags: hostname
   gather_facts: true
-
-- name: Print post-new hostname.
-  debug: msg="****************************************************"
-- debug: msg="*** You have changed the hostname to {{ new_hostname }} ***"
-- debug: msg="****************************************************"

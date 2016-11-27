@@ -28,6 +28,9 @@
   sudo: false
   when: new_hostname != "{{ inventory_hostname }}"
 
+- name: Print post-new hostname.
+  debug: msg="*** You have changed the hostname to {{ new_hostname }} ***"
+
 # Reboot the host and wait for it to come back
 - name: restart machine
   shell: sleep 2 && shutdown -r now "Ansible updates triggered"
