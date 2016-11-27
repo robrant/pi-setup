@@ -7,10 +7,11 @@
   file: path={{ current_user["home"] }}/.ssh/authorized_keys.d state=directory owner={{ current_user["uid"] }} group={{ current_user["group"] }} mode=0700
   when: ssh_public_keys_directory is defined
 
+# This was previously synchronise, but I couldn't get it to not prompt for a
+# password, which was super annoying half way through a play.
 - name: update SSH keys on remote host
-  synchronize: src={{ ssh_public_keys_directory }}/ dest={{ current_user["home"] }}/.ssh/authorized_keys.d archive=yes delete=yes rsync_opts=--no-motd,--exclude=coreos-cloudinit
+  copy: src="{{ ssh_public_keys_directory }}/" dest="{{ current_user["home"] }}/.ssh/authorized_keys.d"
   when: ssh_public_keys_directory is defined
-  become: no
   register: ssh_keys_sync
 
 - name: regenerate authorized_keys file for CoreOS
