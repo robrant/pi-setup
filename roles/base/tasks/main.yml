@@ -26,7 +26,7 @@
   # Resize file system
 - name: ensure filesystem is resized
   expand_fs:
-  when: raspi_config_expanded_filesystem
+  when: raspi_config_expanded_filesystem == true
   tags: gpu_ram_cpu
 
 # Memory split between GPU and RAM and CPU parameters
