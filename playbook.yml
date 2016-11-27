@@ -31,3 +31,13 @@
     - new_hostname: "pi001"
   tags: hostname
   gather_facts: true
+
+- hosts: pis
+  roles:
+    - pi-user
+  tags: pi-user
+  vars_prompt:
+    - name: "upassword"
+      prompt: "New password for user 'pi'"
+      private: yes
+      confirm: yes
