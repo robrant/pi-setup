@@ -10,6 +10,7 @@
 - name: update SSH keys on remote host
   synchronize: src={{ ssh_public_keys_directory }}/ dest={{ current_user["home"] }}/.ssh/authorized_keys.d archive=yes delete=yes rsync_opts=--no-motd,--exclude=coreos-cloudinit
   when: ssh_public_keys_directory is defined
+  become: no
   register: ssh_keys_sync
 
 - name: regenerate authorized_keys file for CoreOS
