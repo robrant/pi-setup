@@ -10,6 +10,7 @@ This repository provides a set of Ansible scripts that you can use to setup your
  - Optionally disables password based SSH login.
  - Configures wifi connection - DHCP assigned IP.
  - Changes the RPI system `hostname` (writes that to the hosts file in this repo for future plays).
+ - Changes the password of the default user `pi`. It prompts you for the new one.
 
 # Docs
 
