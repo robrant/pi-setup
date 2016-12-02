@@ -1,43 +1,56 @@
 ---
 
-# Where the user enters a new hostname for the pi, change it
+# Set the proposed new hostname, based on the prefix and the pi's
+# position in the group in `hosts` file.
+- name: Set a new hostname variable based on a prefix + index num in hosts group
+  set_fact:
+      new_hostname: "{{ new_hostname_prefix }}"{{ groups.pis.index(inventory_hostname) }}
+  when: change_hostname == yes
+
+# Change the hostname of the pi
 - name: Change the hostname on the pi
   hostname: name="{{ new_hostname }}"
-  when: new_hostname != "" and new_hostname != "{{ inventory_hostname }}"
+  when: change_hostname == yes
 
-# Where the user doesn't enter a new hostname (default: raspberrypi)
-# get the current one and use that (for example, instead of IP)
-- name: Get the current pi hostname
+# Get the current hostname
+- name: Get the current hostname (from the host itself)
   shell: hostname
-  register: current_hostname
-
-- name: Set a value for new_hostname if it hasn't been set
-  set_fact:
-      new_hostname: "{{ current_hostname.stdout }}"
-  when: new_hostname == "" and new_hostname != "{{ inventory_hostname }}"
+  register: new_hostname
+  when: change_hostname == no
 
 # Always comment out the old host in the ansible hosts file
 - name: Comment existing IP/hostname
-  local_action: lineinfile dest=hosts regexp="{{ inventory_hostname }}" insertafter="[pis]" line="#{{ inventory_hostname }} Commented by hostname play to use hostname rather than IP"
-  sudo: false
-  when: new_hostname != "{{ inventory_hostname }}"
+  local_action: lineinfile dest=hosts regexp="^{{ inventory_hostname }}" insertafter="[pis]" line="#{{ inventory_hostname }} Old hostname/IP."
+  sudo: false   # because we're doing a local action.
 
 # Write the hostname (either system one or user provided) to the ansible inventory file
-- name: Write new hostname into hosts file (appends .local to hostname provided)
-  local_action: lineinfile dest=hosts regexp="{{ new_hostname }}.local" insertafter="[pis]" line="{{ new_hostname }}.local"
-  sudo: false
-  when: new_hostname != "{{ inventory_hostname }}"
+- name: Write new hostname into hosts file
+  local_action: lineinfile dest=hosts regexp="^{{ new_hostname }}" insertafter="[pis]" line="{{ new_hostname }}"
+  sudo: false   # because we're doing a local action.
 
-- name: Print post-new hostname.
+- set_fact:
+    eth0_ip: "{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}"
+    wlan0_ip: "{{ hostvars[inventory_hostname]['ansible_wlan0']['ipv4']['address'] }}"
+
+- name: Print new hostname.
   debug: msg="*** You have changed the hostname to {{ new_hostname }} ***"
 
+# Print a debug and then notify the top-level handler
+- name: Print IP addresses for benefit of user.
+  debug: msg="*** {{ new_hostname }} has IPs {{ eth0_ip }} (ethernet) and {{ wlan0_ip }} (wifi) ***"
+
+- name: Rebooting host after hostname change.
+  debug: msg="*** Rebooting host after hostname change ***"
+  notify:
+    - reboot
+
 # Reboot the host and wait for it to come back
-- name: restart machine
-  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
-  async: 1
-  poll: 0
-  ignore_errors: true
-  when: new_hostname != "{{ inventory_hostname }}"
+#- name: restart machine
+#  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+#  async: 1
+#  poll: 0
+#  ignore_errors: true
+#  when: new_hostname != "{{ inventory_hostname }}"
 
 
 
