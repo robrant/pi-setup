@@ -7,6 +7,8 @@
 # in the vars_prompt.
 - name: Creating user "{{ uusername }}" with admin access
   user: name={{ uusername }} password={{ upassword |password_hash('sha512') }} groups=pi
+  when: upassword != ""
 
 - name: Print post-user password change.
   debug: msg="*** You have changed the password for {{ uusername }} ***"
+  when: upassword != ""
