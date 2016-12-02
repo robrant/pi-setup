@@ -1,2 +1,4 @@
+# This group name is hardcoded in places.
+# Don't change unless you know what you're doing. 
 [pis]
-pi001.local
+raspberrypi
