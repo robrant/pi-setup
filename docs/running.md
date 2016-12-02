@@ -8,13 +8,15 @@ script from the command line. Examples provided below.
 #### Configuring 1 Pi?
 
 If this is the first time you've run this your default Raspbian OS has a hostname
-of `raspberrypi`, which is the hostname provided in the `hosts` file. Only change
-this if you either know the IP or have change the hostname on the raspberry pi.
+of `raspberrypi`, which is the hostname provided in the `hosts` (inventory) file
+within this playboo. Only change this if you know the IP or have changed the
+hostname on the raspberry pi.
 
 #### Configuring multiple Pis?
 
 This playbook is written so that you can configure multiple Raspberry Pis in one
-run of the playbook. You will need to provide the IPs of your new Pis like so:
+run of the playbook. You will need to provide the IPs of your new Pis in the
+`hosts` file like so:
 
 		[pi]
 		192.168.0.3
@@ -22,9 +24,9 @@ run of the playbook. You will need to provide the IPs of your new Pis like so:
 		192.168.0.5
 
 To get away from using IPs, the hostname play will set the system `hostname`
-variable of each host (on the pi) based on a prefix you provide and the index
-position of the host within the `hosts` file `[pi]` group. The variable that
-controls the prefix is `new_hostname_prefix`, which is set in
+variable of each host (in `/etc/hostname` on the pi) based on a prefix you
+provide and the index position of the host within the `hosts` file `[pi]` group.
+The variable that controls the prefix is `new_hostname_prefix`, which is set in
 `hostname/defaults/main.yml` but can be overridden in the `playbook.yml` file.
 
 Using the example above and given a `new_hostname_prefix` of `pibox`, it will
@@ -95,8 +97,8 @@ You can run parts of the playbook using tags in the playbook. A couple of exampl
 
 ## Password prompts
 
-You will be prompted for a password twice - once for the SSH login of the `pi` user and once for that user to `sudo`. The
-default password for the `pi` user is `raspbian`.
+You will be prompted for a password twice - once for the SSH login of the `pi`
+user and once for that user to `sudo`. The default password for the `pi` user is `raspbian`.
 
 You will also be prompted for a new password. If you don't want to change the password, just hit 'Enter'.
 
