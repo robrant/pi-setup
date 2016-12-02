@@ -1,4 +1,15 @@
-# This group name is hardcoded in places.
-# Don't change unless you know what you're doing. 
+# This group name `[pi]` is hardcoded in places.
+# Don't change unless you know what you're doing.
 [pis]
 raspberrypi
+
+# -----------------------------------------------------------------------------
+# Multiple Hosts
+# If you have multiple raspberry pis to configure, find their IPs
+# on your network and put them in a list (one per line) under the `[pi]` group.
+# For example:
+# [pi]
+# 192.168.0.3
+# 192.168.0.4
+# 192.168.0.5
+# 192.168.0.6
