@@ -1,0 +1,5 @@
+- name: Dump all vars
+  action: template src=dumpall.j2 dest=/tmp/ansible.all
+
+- name: Copy output file back to control machine
+  fetch: src=/tmp/ansible.all dest={{ playbook_dir }}/ansible.allvariables flat=yes

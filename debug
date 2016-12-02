@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Install/deployment script for pi setup
+# @author robrant
+#
+
+set -e
+
+IFS=$','
+
+export ANSIBLE_ERROR_ON_UNDEFINED_VARS=True
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+echo 'Running ansible-playbook -i hosts debugger_playbook.yml'
+ansible-playbook --user=pi --ask-pass -i hosts debugger_playbook.yml

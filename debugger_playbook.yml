@@ -1,0 +1,5 @@
+# Change the password of the pi user
+- hosts: pis
+  roles:
+    - debugger
+  tags: debugger
