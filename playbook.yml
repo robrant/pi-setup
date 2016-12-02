@@ -1,15 +1,4 @@
 
-# Change the password of the pi user
-- hosts: pis
-  roles:
-    - pi-user
-  tags: pi-user
-  vars_prompt:
-    - name: "upassword"
-      prompt: "New password for user 'pi'"
-      private: yes
-      confirm: yes
-
 # Basic setup of a fresh raspberry pi
 - hosts: pis
   roles:
@@ -22,7 +11,7 @@
     - keyboard_layout: gb
     - timezone: Europe/London
     - password_login_permitted: "yes"
-  tags: basics
+  tags: base
 
 # A Dedicated wifi play to set some of the parameters via prompt
 - hosts: pis
@@ -34,11 +23,25 @@
   tags: wifi
   gather_facts: false
 
-# Sets a new hostname
+# Sets a new hostname and writes it to the `hosts` file.
 - hosts: pis
   roles:
     - hostname
   vars:
-    - new_hostname: "pi001"
+    - change_hostname: yes          # Overrides group_vars/all.yml
+    - new_hostname_prefix: "pibox"  # Overrides role defaults/main.yml.
   tags: hostname
   gather_facts: true
+
+# Change the password of the pi user
+# If nothing is provided, it doesn't change it.
+- hosts: pis
+  roles:
+    - pi-user
+  tags: pi-user
+  vars_prompt:
+    - name: "upassword"
+      prompt: "new password? [Press enter to leave unchanged]"
+      private: yes
+      confirm: yes
+      default: ""

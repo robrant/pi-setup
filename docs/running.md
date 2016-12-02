@@ -5,9 +5,38 @@ script from the command line. Examples provided below.
 
 ## Hosts file
 
+#### Configuring 1 Pi?
+
 If this is the first time you've run this your default Raspbian OS has a hostname
 of `raspberrypi`, which is the hostname provided in the `hosts` file. Only change
 this if you either know the IP or have change the hostname on the raspberry pi.
+
+#### Configuring multiple Pis?
+
+This playbook is written so that you can configure multiple Raspberry Pis in one
+run of the playbook. You will need to provide the IPs of your new Pis like so:
+
+		[pi]
+		192.168.0.3
+		192.168.0.4
+		192.168.0.5
+
+To get away from using IPs, the hostname play will set the system `hostname`
+variable of each host (on the pi) based on a prefix you provide and the index
+position of the host within the `hosts` file `[pi]` group. The variable that
+controls the prefix is `new_hostname_prefix`, which is set in
+`hostname/defaults/main.yml` but can be overridden in the `playbook.yml` file.
+
+Using the example above and given a `new_hostname_prefix` of `pibox`, it will
+make the hosts file look like this:
+
+		[pi]
+		pibox0
+		pibox1
+		pibox2
+
+and change the hostname (`/etc/hostname`) on the pis to the values above
+(`pibox0`,`pibox1`,`pibox2`).
 
 ## Variables
 
@@ -35,13 +64,13 @@ details in the relevant vars fields.
 
 ### Hostname
 
-You can use the `hostname` tag to change the system hostname of your RPI.
-Change the following variables in `playbook.yml`:
+You can use the `hostname` tag to change the system hostname of your Pi and change references to it in the `hosts` file in this playbook. The `change_hostname` variable determines whether to change the system hostname (in `/etc/hostname`) or not. Change the following variables in `playbook.yml`:
 
-	vars:
-		- hostname: <your new hostname in here>
+		vars:
+			- new_hostname_prefix: <your new hostname prefix>
+			- change_hostname: ( yes | no ) # (default is yes)
 
-## Defaults
+## Keyboard and Timezone Defaults
 Sensible (for me) defaults are provided for the keyboard layout and timezone.
 To change them, edit `playbook.yml`, changing:
 
@@ -55,12 +84,20 @@ For a list of timezones, see the `tz` field in [this table](https://en.wikipedia
 
 Run the playbook
 
-  $> ./run
+		$> cd pi-setup
+	  $> ./run
 
-Run a specific tag in the playbook (finer grained control of what gets run)
+You can run parts of the playbook using tags in the playbook. A couple of examples:
 
-  $> ./run ( basics | wifi | hostname )
+	  $> ./run base # recommended before any others.
+		$> ./run wifi
+		$> ./run motd
 
-You will be prompted for a password twice - once for the login of the `pi` user
-which we specify in the `./deploy` script and once for that user to sudo. The
+## Password prompts
+
+You will be prompted for a password twice - once for the SSH login of the `pi` user and once for that user to `sudo`. The
 default password for the `pi` user is `raspbian`.
+
+You will also be prompted for a new password. If you don't want to change the password, just hit 'Enter'.
+
+If I can get the password-less SSH working, that should go away.
