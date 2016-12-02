@@ -1,0 +1,3 @@
+---
+dependencies:
+- role: top_level_handlers

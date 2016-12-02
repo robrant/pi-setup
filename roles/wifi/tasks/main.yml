@@ -4,5 +4,14 @@
 - name: Interface | Template over interfaces file
   template: src=interfaces.j2 dest=/etc/network/interfaces owner=root group=root mode=0644
 
+# Template over the wpa supplicant and reboot the host
 - name: Interface | Template over wpa_supplicant file; prompt for ssid and psk.
   template: src=wpa_supplicant.conf.j2 dest=/etc/wpa_supplicant/wpa_supplicant.conf  owner=root group=root mode=0644
+
+- name: Rebooting host after hostname change.
+  debug: msg="*** Rebooting host after wifi network change ***"
+  notify:
+    - reboot
+
+#- name: Restart the network
+#  systemd: name=networking state=restarted
