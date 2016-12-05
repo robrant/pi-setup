@@ -12,6 +12,10 @@
   debug: msg="*** Rebooting host after wifi network change ***"
   notify:
     - reboot
+    - wait for reboot
 
-#- name: Restart the network
-#  systemd: name=networking state=restarted
+- name: Check it rebooted
+  shell: ifconfig
+  register: ifconfig_output
+
+- debug: msg="Ifconfig output -- {{ ifconfig_output }}"
