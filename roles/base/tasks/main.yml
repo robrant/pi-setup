@@ -35,7 +35,15 @@
   notify:
     - apply raspi-config
     - reboot
+    - wait for reboot
   tags: gpu_ram_cpu
+
+- name: Check it rebooted
+  shell: uname -a
+  register: uname_output
+
+- debug: msg="Uname output -- {{ uname_output }}"
+
 
 # This looks a bit unecessary, so commented but copied from
 # source repo in case its useful: https://github.com/mikolak-net/ansible-raspi-config/blob/master/vars/main.yml
