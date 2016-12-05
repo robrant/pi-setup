@@ -5,12 +5,11 @@
   # https://support.ansible.com/hc/en-us/articles/201958037-Reboot-a-server-and-wait-for-it-to-come-back
 
 - name: reboot
-  command: shutdown -r now
+  command: reboot
   async: 0
   poll: 0
-  ignore_errors: True
-  notify:
-    - wait for reboot
+  ignore_errors: false
+
 - name: wait for reboot
   local_action:
     module: wait_for
