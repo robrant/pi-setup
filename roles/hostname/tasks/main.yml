@@ -32,7 +32,7 @@
 
 # Write the hostname (either system one or user provided) to the ansible inventory file
 - name: Write new hostname into hosts file
-  local_action: lineinfile dest=hosts regexp="^{{ new_hostname }}" insertafter="[pis]" line="{{ new_hostname }}"
+  local_action: lineinfile dest=hosts regexp="^{{ new_hostname }}.local" insertafter="[pis]" line="{{ new_hostname }}.local"
   sudo: false   # because we're doing a local action.
 
 - set_fact:
@@ -58,15 +58,13 @@
   debug: msg="*** Rebooting host after hostname change ***"
   notify:
     - reboot
+    - wait for reboot
 
-# Reboot the host and wait for it to come back
-#- name: restart machine
-#  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
-#  async: 1
-#  poll: 0
-#  ignore_errors: true
-#  when: new_hostname != "{{ inventory_hostname }}"
+- name: Check hostname after reboot
+  shell: hostname
+  register: new_changed_hostname
 
+- debug: msg="New hostname after reboot {{ new_changed_hostname }}"
 
 
 
