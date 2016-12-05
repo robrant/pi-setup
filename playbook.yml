@@ -28,7 +28,7 @@
   roles:
     - hostname
   vars:
-    - change_hostname: yes          # Overrides group_vars/all.yml
+    - change_hostname: true          # Overrides group_vars/all.yml
     - new_hostname_prefix: "pibox"  # Overrides role defaults/main.yml.
   tags: hostname
   gather_facts: true
