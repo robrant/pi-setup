@@ -44,6 +44,11 @@ PiBaker is an easy Mac Utility for writing images to SD cards. [AlternativesTo.c
 5. Click 'Restore Backup' (labeled 'B').
 6. If it all goes well, you won't see any errors and it'll provide a message saying you've successfully written your image and that it's automatically unmounted and ejected the disk. Good.
 
+### TODO BOOT PARTITION AND HEADLESS mode
+
+
+
+
 ### Load and boot.
 
 1. Stick the microUSB into your Raspberry Pi.
