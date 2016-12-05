@@ -4,7 +4,7 @@
 # position in the group in `hosts` file.
 - name: Set a new hostname variable based on a prefix + index num in hosts group
   set_fact:
-      new_hostname: "{{ new_hostname_prefix }}"{{ groups.pis.index(inventory_hostname) }}
+      new_hostname: "{{ new_hostname_prefix }}{{ groups.pis.index(inventory_hostname) }}"
   when: change_hostname == yes
 
 # Change the hostname of the pi
