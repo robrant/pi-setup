@@ -5,18 +5,25 @@
 - name: Set a new hostname variable based on a prefix + index num in hosts group
   set_fact:
       new_hostname: "{{ new_hostname_prefix }}{{ groups.pis.index(inventory_hostname) }}"
-  when: change_hostname == yes
+  when: change_hostname == true
+
+- debug: msg="{{ new_hostname }}"
 
 # Change the hostname of the pi
 - name: Change the hostname on the pi
   hostname: name="{{ new_hostname }}"
-  when: change_hostname == yes
+  when: change_hostname == true
 
 # Get the current hostname
 - name: Get the current hostname (from the host itself)
   shell: hostname
-  register: new_hostname
-  when: change_hostname == no
+  register: current_hostname
+  when: change_hostname == false
+
+- name: Set new_hostname based on current hostname
+  set_fact:
+      new_hostname: current_hostname
+  when: change_hostname == false
 
 # Always comment out the old host in the ansible hosts file
 - name: Comment existing IP/hostname
@@ -30,14 +37,22 @@
 
 - set_fact:
     eth0_ip: "{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}"
+
+- set_fact:
     wlan0_ip: "{{ hostvars[inventory_hostname]['ansible_wlan0']['ipv4']['address'] }}"
+  ignore_errors: true
 
 - name: Print new hostname.
   debug: msg="*** You have changed the hostname to {{ new_hostname }} ***"
 
 # Print a debug and then notify the top-level handler
-- name: Print IP addresses for benefit of user.
-  debug: msg="*** {{ new_hostname }} has IPs {{ eth0_ip }} (ethernet) and {{ wlan0_ip }} (wifi) ***"
+- name: Print Ethernet IP address.
+  debug: msg="*** {{ new_hostname }} has Ethernet IP {{ eth0_ip }} ***"
+  when: eth0_ip is defined
+
+- name: Print wifi IP address for benefit of user.
+  debug: msg="*** {{ new_hostname }} has Wifi IP {{ wlan0_ip }} ***"
+  when: wlan0_ip is defined
 
 - name: Rebooting host after hostname change.
   debug: msg="*** Rebooting host after hostname change ***"
