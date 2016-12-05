@@ -70,7 +70,7 @@ You can use the `hostname` tag to change the system hostname of your Pi and chan
 
 		vars:
 			- new_hostname_prefix: <your new hostname prefix>
-			- change_hostname: ( yes | no ) # (default is yes)
+			- change_hostname: ( true | false ) # (default is yes)
 
 ## Keyboard and Timezone Defaults
 Sensible (for me) defaults are provided for the keyboard layout and timezone.
