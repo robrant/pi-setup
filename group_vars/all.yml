@@ -12,5 +12,5 @@ uusername: pi
 
 # Change the hostname. If set to no, it'll still run the hostname play
 # and put the current hostname in the `hosts` file. If set to yes, it'll
-# change the hostname parameter on the pi as well. 
-change_hostname: yes
+# change the hostname parameter on the pi as well.
+change_hostname: true
