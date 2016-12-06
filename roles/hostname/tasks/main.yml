@@ -27,7 +27,7 @@
 
 # Always comment out the old host in the ansible hosts file
 - name: Comment existing IP/hostname
-  local_action: lineinfile dest=hosts regexp="^{{ inventory_hostname }}" insertafter="[pis]" line="#{{ inventory_hostname }} Old hostname/IP."
+  local_action: lineinfile dest=hosts regexp="^{{ inventory_hostname }}" insertafter="[pis]" line="#{{ inventory_hostname }} \# Old hostname or IP."
   sudo: false   # because we're doing a local action.
 
 # Write the hostname (either system one or user provided) to the ansible inventory file
