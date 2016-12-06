@@ -44,10 +44,15 @@ PiBaker is an easy Mac Utility for writing images to SD cards. [AlternativesTo.c
 5. Click 'Restore Backup' (labeled 'B').
 6. If it all goes well, you won't see any errors and it'll provide a message saying you've successfully written your image and that it's automatically unmounted and ejected the disk. Good.
 
-### TODO BOOT PARTITION AND HEADLESS mode
+### Enable SSH
 
+As of [November 2016](https://www.raspberrypi.org/documentation/remote-access/ssh/), SSH is disabled by default on the raspberry pi. You'll need it enabled to run any ansible playbook, so do the following:
 
-
+* Take out your newly written micro SD card
+* Re-insert it into your laptop
+* In a file browser / finder window, find the device called `boot` on the left hand side.
+* Copy `pi-setup/docs/preboot_files/ssh` to this `boot` device.
+* That's it; you don't need to add any content or change permissions/ownership.
 
 ### Load and boot.
 
@@ -96,7 +101,7 @@ If your control machine is running OSX, you'll need passlib installed. Run:
 Expect to see this error if you dont:
 
 		TASK [pi-user : Creating user "pi" with admin access] **************************
-		fatal: [pi001.local]:
+		fatal: [<host>]:
 		FAILED! => {"failed": true, "msg": "|
 		password_hash requires the passlib python module to
 		generate password hashes on Mac OS X/Darwin"}
