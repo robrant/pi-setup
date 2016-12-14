@@ -10,16 +10,16 @@
 
 # Forcing something to change, because we need a task state to change
 # in order to trigger the notify commands.
-- name: Rebooting host after hostname change.
+
+- name: Remove the file.
+  file:
+    path: /tmp/tempansiblefile
+    state: absent
+
+- name: Touch a file to instigate the reboot.
   file:
     path: /tmp/tempansiblefile
     state: touch
   notify:
     - reboot
     - wait for reboot
-
-- name: Check it rebooted
-  shell: ifconfig
-  register: ifconfig_output
-
-- debug: msg="Ifconfig output -- {{ ifconfig_output }}"
