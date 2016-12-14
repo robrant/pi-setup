@@ -5,8 +5,9 @@
   # https://support.ansible.com/hc/en-us/articles/201958037-Reboot-a-server-and-wait-for-it-to-come-back
 
 - name: reboot
-  command: /sbin/shutdown -r +1
-  async: 0
+  #command: /sbin/shutdown -r +1
+  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+  async: 1
   poll: 0
   ignore_errors: false
 
