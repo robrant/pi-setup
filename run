@@ -12,8 +12,12 @@ export ANSIBLE_ERROR_ON_UNDEFINED_VARS=True
 export ANSIBLE_HOST_KEY_CHECKING=False
 
 if [[ $# -gt 0 ]]; then
-  echo 'Running ansible-playbook -i hosts playbook.yml --tags' "$*"
-  ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags "$*"
+  if [ $1 = "pi-user" ]; then
+    echo 'Running ansible-playbook --user=pi --ask-pass -i hosts password_change.yml'
+    ansible-playbook --user=pi --ask-pass -i hosts password_change.yml
+  else
+    echo 'Running ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags' "$*"
+    ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags "$*"
 else
   echo 'Running ansible-playbook -i hosts playbook.yml'
   ansible-playbook --user=pi --ask-pass -i hosts playbook.yml
