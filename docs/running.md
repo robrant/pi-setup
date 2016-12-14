@@ -9,7 +9,7 @@ script from the command line. Examples provided below.
 
 If this is the first time you've run this your default Raspbian OS has a hostname
 of `raspberrypi`, which is the hostname provided in the `hosts` (inventory) file
-within this playboo. Only change this if you know the IP or have changed the
+within this playbook. Only change this if you know the IP or have changed the
 hostname on the raspberry pi.
 
 #### Configuring multiple Pis?

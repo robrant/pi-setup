@@ -75,8 +75,8 @@ As of [November 2016](https://www.raspberrypi.org/documentation/remote-access/ss
 
 Open a terminal...
 
-	$> ssh pi@192.168.0.xx
-	The authenticity of host '192.168.0.xx (192.168.0.xx)' can't be established.
+	$> ssh pi@<pi_ip>
+	The authenticity of host '<pi_ip> (<pi_ip>)' can't be established.
 	ECDSA key fingerprint is SHA256:<zzzzzz>.
 	Are you sure you want to continue connecting (yes/no)? yes
 	Warning: Permanently added '<pi_ip>' (ECDSA) to the list of known hosts.
@@ -98,7 +98,7 @@ If your control machine is running OSX, you'll need passlib installed. Run:
 
 	$> sudo pip install passlib
 
-Expect to see this error if you dont:
+Expect to see this error if you don't:
 
 		TASK [pi-user : Creating user "pi" with admin access] **************************
 		fatal: [<host>]:
@@ -132,4 +132,4 @@ To create a new keypair, follow the following instructions. This assumes you're 
 
 # Voodoo?
 
-If by some voodoo, this actually worked for you, then head back to the [README.md](../README.md) to run the play. If it didn't, please [raise an issue](https://github.com/robrant/pi-setup/issues/new).
+If by some voodoo, this all actually worked for you, then head to the [running.md](./running.md) to run the play. If it didn't, please [raise an issue](https://github.com/robrant/pi-setup/issues/new).
