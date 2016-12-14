@@ -93,7 +93,8 @@ You can run parts of the playbook using tags in the playbook. A couple of exampl
 
 	  $> ./run base # recommended before any others.
 		$> ./run wifi
-		$> ./run motd
+		$> ./run hostname
+		$> ./run pi-user
 
 ## Password prompts
 
