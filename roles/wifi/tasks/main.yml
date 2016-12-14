@@ -8,27 +8,15 @@
 - name: Interface | Template over wpa_supplicant file; prompt for ssid and psk.
   template: src=wpa_supplicant.conf.j2 dest=/etc/wpa_supplicant/wpa_supplicant.conf  owner=root group=root mode=0644
 
+# Forcing something to change, because we need a task state to change
+# in order to trigger the notify commands.
 - name: Rebooting host after hostname change.
-  debug: msg="*** Rebooting host after wifi network change ***"
+  file:
+    path: /tmp/tempansiblefile
+    mode: 0644
   notify:
     - reboot
     - wait for reboot
-
-- name: reboot
-  #command: /sbin/shutdown -r +1
-  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
-  async: 1
-  poll: 0
-  ignore_errors: false
-
-- name: wait for reboot
-  local_action:
-    module: wait_for
-      host="{{ inventory_hostname }}"
-      port=22
-      delay=1
-      timeout=300
-  sudo: false
 
 - name: Check it rebooted
   shell: ifconfig
