@@ -8,18 +8,13 @@
 - name: Interface | Template over wpa_supplicant file; prompt for ssid and psk.
   template: src=wpa_supplicant.conf.j2 dest=/etc/wpa_supplicant/wpa_supplicant.conf  owner=root group=root mode=0644
 
-# Forcing something to change, because we need a task state to change
-# in order to trigger the notify commands.
-
+# Forcing task state to change in order to trigger the notify.
+# Notify will only trigger when a task state is 'changed'
 - name: Remove the file.
-  file:
-    path: /tmp/tempansiblefile
-    state: absent
+  file: path=/tmp/tempansiblefile state=absent
 
 - name: Touch a file to instigate the reboot.
-  file:
-    path: /tmp/tempansiblefile
-    state: touch
+  file: path=/tmp/tempansiblefile state=touch
   notify:
     - reboot
     - wait for reboot

@@ -54,32 +54,13 @@
   debug: msg="*** {{ new_hostname }} has Wifi IP {{ wlan0_ip }} ***"
   when: wlan0_ip is defined
 
-- name: Rebooting host after hostname change.
-  debug: msg="*** Rebooting host after hostname change ***"
+# Forcing task state to change in order to trigger the notify.
+# Notify will only trigger when a task state is 'changed'
+- name: Remove the file.
+  file: path=/tmp/tempansiblefile state=absent
+
+- name: Touch a file to instigate the reboot.
+  file: path=/tmp/tempansiblefile state=touch
   notify:
     - reboot
     - wait for reboot
-
-- name: Check hostname after reboot
-  shell: hostname
-  register: new_changed_hostname
-
-- debug: msg="New hostname after reboot {{ new_changed_hostname }}"
-
-
-
-
-
-
-
-
-# Could not get the connection to be remade. The host comes back up, but it isn't available via wait_for
-
-#- name: waiting for server to come back
-#  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} state=started
-#  sudo: false
-
-# Useful debug calls:
-#- debug: "var=hostvars"
-#- debug: "var=inventory_hostname"
-#- debug: "var=current_hostname"
