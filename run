@@ -18,6 +18,7 @@ if [[ $# -gt 0 ]]; then
   else
     echo 'Running ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags' "$*"
     ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags "$*"
+  fi
 else
   echo 'Running ansible-playbook -i hosts playbook.yml'
   ansible-playbook --user=pi --ask-pass -i hosts playbook.yml
