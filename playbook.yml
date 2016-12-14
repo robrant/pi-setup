@@ -32,16 +32,3 @@
     - new_hostname_prefix: "pibox"  # Overrides role defaults/main.yml.
   tags: hostname
   gather_facts: true
-
-# Change the password of the pi user
-# If nothing is provided, it doesn't change it.
-- hosts: pis
-  roles:
-    - pi-user
-  tags: pi-user
-  vars_prompt:
-    - name: "upassword"
-      prompt: "new password? [Press enter to leave unchanged]"
-      private: yes
-      confirm: yes
-      default: ""
