@@ -13,13 +13,15 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 
 if [[ $# -gt 0 ]]; then
   if [ $1 = "pi-user" ]; then
-    echo 'Running ansible-playbook --user=pi --ask-pass -i hosts password_change.yml'
+    echo 'Running: ansible-playbook --user=pi --ask-pass -i hosts password_change.yml'
     ansible-playbook --user=pi --ask-pass -i hosts password_change.yml
   else
-    echo 'Running ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags' "$*"
+    echo 'Running: ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags' "$*"
     ansible-playbook --user=pi --ask-pass -i hosts playbook.yml --tags "$*"
   fi
 else
-  echo 'Running ansible-playbook -i hosts playbook.yml'
+  echo 'Running: ansible-playbook --user=pi --ask-pass -i hosts playbook.yml'
   ansible-playbook --user=pi --ask-pass -i hosts playbook.yml
+  echo 'Running: ansible-playbook --user=pi --ask-pass -i hosts password_change.yml'
+  ansible-playbook --user=pi --ask-pass -i hosts password_change.yml
 fi
