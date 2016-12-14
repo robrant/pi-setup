@@ -13,7 +13,7 @@
 - name: Rebooting host after hostname change.
   file:
     path: /tmp/tempansiblefile
-    mode: 0644
+    state: touch
   notify:
     - reboot
     - wait for reboot
