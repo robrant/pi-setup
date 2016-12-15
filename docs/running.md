@@ -84,14 +84,17 @@ For a list of timezones, see the `tz` field in [this table](https://en.wikipedia
 
 ## Running
 
-Run the playbook
+Run the user password-changing play
 
 		$> cd pi-setup
-	  $> ./run
+	  $> ./run password
 
-You can run parts of the playbook using tags in the playbook. A couple of examples:
+Then run the rest of the playbook, either all together:
 
-	  $> ./run base # recommended before any others.
+	  $> ./run base,wifi,hostname
+
+Or separately:
+
 		$> ./run wifi
 		$> ./run hostname
 		$> ./run pi-user
