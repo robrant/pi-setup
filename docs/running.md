@@ -87,7 +87,7 @@ For a list of timezones, see the `tz` field in [this table](https://en.wikipedia
 Run the user password-changing play
 
 		$> cd pi-setup
-	  $> ./run password
+	  $> ./run pi-user
 
 Then run the rest of the playbook, either all together:
 
@@ -95,9 +95,9 @@ Then run the rest of the playbook, either all together:
 
 Or separately:
 
+		$> ./run base
 		$> ./run wifi
 		$> ./run hostname
-		$> ./run pi-user
 
 ## Password prompts
 
