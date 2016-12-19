@@ -104,6 +104,6 @@ Or separately:
 You will be prompted for a password twice - once for the SSH login of the `pi`
 user and once for that user to `sudo`. The default password for the `pi` user is `raspbian`.
 
-You will also be prompted for a new password. If you don't want to change the password, just hit 'Enter'.
+When running `./run password` you will be prompted for a new password. If you don't want to change the password, just hit 'Enter'.
 
 If I can get the password-less SSH working, that should go away.
