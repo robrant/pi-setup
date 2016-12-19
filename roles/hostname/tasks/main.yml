@@ -54,13 +54,12 @@
   debug: msg="*** {{ new_hostname }} has Wifi IP {{ wlan0_ip }} ***"
   when: wlan0_ip is defined
 
-# Forcing task state to change in order to trigger the notify.
-# Notify will only trigger when a task state is 'changed'
-- name: Remove the file.
-  file: path=/tmp/tempansiblefile state=absent
-
-- name: Touch a file to instigate the reboot.
-  file: path=/tmp/tempansiblefile state=touch
-  notify:
+# Force the pi config and reboot
+-  debug: msg="Config Reload and Reboot"
+   notify:
     - reboot
     - wait for reboot
+   changed_when: true
+
+# Force it to run these ^ handlers now, rather than at the end.
+- meta: flush_handlers
