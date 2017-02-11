@@ -2,13 +2,34 @@
 
 # Install passlib, which is required for the password hashing in the next step.
 
-# Change the password for the pi user
-# here we're hashing the password via jinja. It's also possible to do it directly
-# in the vars_prompt.
-- name: Creating user "{{ uusername }}" with admin access
-  user: name={{ uusername }} password={{ upassword |password_hash('sha512') }} groups=pi
-  when: upassword != ""
+- name: GROUP | Add groups to the system
+  group:
+    name: {{ item.name }}
+    system: {{ item.system | default('no') }}
+  with_items:
+    - "{{ dbs_groups }}"
+  when: item.state is not defined or item.state = 'present'
 
-- name: Print post-user password change.
-  debug: msg="*** You have changed the password for {{ uusername }} ***"
-  when: upassword != ""
+- name: USER | Add user to the system
+  user:
+    name: pi
+    shell: /bin/bash
+    groups: {{ dbs_user_groups | default('') }}
+    home: /home/pi
+    createhome: yes
+    password: {{ password | password_hash('sha512') }}
+  register: u
+
+- name: AUTHORIZED KEYS | Install SSH public key to pi user
+  authorized_key:
+    user: pi
+    key: "{{ dbs_ssh_pubkey }}"
+  when: dbs_ssh_pubkey is defined
+
+- name: TEMPLATE | Create sudoers file
+  template:
+    src: etc/sudoers.d/ansible.j2
+    dest: /etc/sudoers.d/ansible
+    mode: 0440
+    validate: 'visudo -cf %s'
+  when: u.changed
