@@ -2,30 +2,26 @@
 
 # Install passlib, which is required for the password hashing in the next step.
 
-- name: GROUP | Add groups to the system
-  group:
-    name: {{ item.name }}
-    system: {{ item.system | default('no') }}
-  with_items:
-    - "{{ dbs_groups }}"
-  when: item.state is not defined or item.state = 'present'
-
+# Add a user
 - name: USER | Add user to the system
   user:
     name: pi
     shell: /bin/bash
-    groups: {{ dbs_user_groups | default('') }}
+    groups: pi
     home: /home/pi
     createhome: yes
-    password: {{ password | password_hash('sha512') }}
+    password: "{{ upassword | password_hash('sha512') }}"
   register: u
+  when: upassword != ""
 
+# Set the authorized keys
 - name: AUTHORIZED KEYS | Install SSH public key to pi user
   authorized_key:
     user: pi
-    key: "{{ dbs_ssh_pubkey }}"
-  when: dbs_ssh_pubkey is defined
+    key: "{{ ssh_pubkey }}"
+  when: ssh_pubkey is defined
 
+# Template a sudoers file
 - name: TEMPLATE | Create sudoers file
   template:
     src: etc/sudoers.d/ansible.j2
