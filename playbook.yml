@@ -7,27 +7,34 @@
     - role: motd
     - role: ssh
   vars:
-    - ssh_public_keys_directory: ./public_keys
+    - ansible_user: "pi"
+    - ansible_ssh_private_key_file: "{{ lookup('file', 'keys/pikey') }}"
     - keyboard_layout: gb
     - timezone: Europe/London
     - password_login_permitted: "yes"
   tags: base
+
 
 # A Dedicated wifi play to set some of the parameters via prompt
 - hosts: pis
   roles:
     - wifi
   vars:
+    - ansible_user: "pi"
+    - ansible_ssh_private_key_file: "{{ lookup('file', 'keys/pikey') }}"
     - wifi_ssid: ""
     - wifi_psk: ""
   tags: wifi
   gather_facts: false
+
 
 # Sets a new hostname and writes it to the `hosts` file.
 - hosts: pis
   roles:
     - hostname
   vars:
+    - ansible_user: "pi"
+    - ansible_ssh_private_key_file: "{{ lookup('file', 'keys/pikey') }}"
     - change_hostname: true          # Overrides group_vars/all.yml
     - new_hostname_prefix: "pibox"  # Overrides role defaults/main.yml.
   tags: hostname
